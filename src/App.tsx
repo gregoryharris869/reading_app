@@ -19,10 +19,18 @@ function App() {
     localStorage.setItem("readingList", JSON.stringify(updateBooks));
   };
 
+  const moveBook = (bookToMove: Book, newStatus: Book["status"]) => {
+    const updateBooks: Book[] = books.map((book) =>
+      book.key === bookToMove.key ? { ...book, status: newStatus } : book
+    );
+    setBooks(updateBooks);
+    localStorage.setItem("readingList", JSON.stringify(updateBooks));
+  };
+
   return (
     <div className="container mx-auto">
       <BookSearch onAddBook={addBook} />
-      <BookList books={books} />
+      <BookList books={books} onMoveBook={moveBook} />
     </div>
   );
 }
