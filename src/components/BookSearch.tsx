@@ -84,7 +84,8 @@ export default function BookSearch() {
           </p>
         )}
       </div>
-      <div className="mt-4 overflow-auto max-h-64">
+      <div className="mt-4 overflow-auto max-h-64"></div>
+      {query.length > 0 && results.length > 0 ? (
         <Table>
           <TableHeader>
             <TableRow>
@@ -125,7 +126,11 @@ export default function BookSearch() {
             ))}
           </TableBody>
         </Table>
-      </div>
+      ) : (
+        <div className="flex items-center justify-center p-16 max-h-60">
+          Start your search.
+        </div>
+      )}
       <div className="flex items-center justify-between mt-4">
         <Button
           variant="outline"
