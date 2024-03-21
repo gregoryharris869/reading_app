@@ -2,6 +2,7 @@ import axios from "axios";
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+
 import {
   Table,
   TableBody,
@@ -10,8 +11,10 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+
 import { Book, useStore } from "@/store";
 import { AiOutlineLoading3Quarters } from "react-icons/ai";
+import { SlArrowRight, SlArrowLeft } from "react-icons/sl";
 
 export default function BookSearch() {
   const { books, addBook } = useStore((state) => state);
@@ -89,32 +92,32 @@ export default function BookSearch() {
             )}
           </Button>
         </div>
-        {/* <div className="mt-2">
-          {totalResults > 0 && (
-            <p className="text-sm">
-              Showing {startIndex} - {endIndex} out of {totalResults} results.
-            </p>
-          )}
-        </div> */}
+
         <div className="mt-4 overflow-auto max-h-64">
           {query.length > 0 && results.length > 0 ? (
             <Table>
               <TableHeader>
                 <TableRow>
-                  <TableHead className="p-2">Title</TableHead>
-                  <TableHead className="p-2">Author</TableHead>
-                  <TableHead className="p-2">Year</TableHead>
-                  <TableHead className="p-2">page Count</TableHead>
-                  <TableHead className="p-2"></TableHead>
+                  <TableHead>Title</TableHead>
+                  <TableHead>Author</TableHead>
+                  <TableHead className="hidden sm:table-cell">Year</TableHead>
+                  <TableHead className="hidden sm:table-cell">
+                    page Count
+                  </TableHead>
+                  <TableHead></TableHead>
                 </TableRow>
               </TableHeader>
-              <TableBody>
+              <TableBody className="overflow-y-auto">
                 {results.map((book: Book, index: number) => (
                   <TableRow key={index}>
                     <TableCell>{book.title}</TableCell>
                     <TableCell>{book.author_name}</TableCell>
-                    <TableCell>{book.first_publish_year}</TableCell>
-                    <TableCell>{book.number_of_pages_median ?? "-"}</TableCell>
+                    <TableCell className="hidden sm:table-cell">
+                      {book.first_publish_year}
+                    </TableCell>
+                    <TableCell className="hidden sm:table-cell">
+                      {book.number_of_pages_median ?? "-"}
+                    </TableCell>
                     <TableCell>
                       <Button
                         variant="link"
@@ -140,18 +143,41 @@ export default function BookSearch() {
             </Table>
           ) : (
             <div className="flex items-center justify-center p-16 max-h-60">
-              Start your search.
+              <p className="text-gray-600 dark:text-gray-400">
+                Start your search.
+              </p>
             </div>
           )}
-          <div className="flex items-center justify-between mt-4">
+        </div>
+        <div className="flex flex-col items-center w-full gap-3 px-6 py-4 border-t border-gray-200 sm:flex-row sm:justify-between dark:border-gray-700">
+          <div>
+            <p className="tracking-wide text-gray-600 dark:text-gray-400">
+              {totalResults > 0 ? (
+                <>
+                  Showing{" "}
+                  <span className="font-semibold text-gray-800 dark:text-gray-200">
+                    {startIndex} - {endIndex}
+                  </span>{" "}
+                  out of{" "}
+                  <span className="font-semibold text-gray-800 dark:text-gray-200">
+                    {totalResults}
+                  </span>{" "}
+                  results.
+                </>
+              ) : (
+                "0 results"
+              )}
+            </p>
+          </div>
+          <div className="inline-flex gap-2">
             <Button
               variant="outline"
               onClick={handlePreviousClick}
               disabled={currentPage <= 1 || isLoading}
             >
-              Previous
+              <SlArrowLeft className="size-4" />
             </Button>
-            <span>{currentPage}</span>
+
             <Button
               variant="outline"
               onClick={handleNextClick}
@@ -160,7 +186,7 @@ export default function BookSearch() {
                 isLoading
               }
             >
-              Next
+              <SlArrowRight className="size-4" />
             </Button>
           </div>
         </div>

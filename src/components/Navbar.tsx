@@ -17,6 +17,7 @@ export default function Navbar() {
               >
                 <GiSpellBook className="size-full" />
               </a>
+              <p className="mt-2 text-xl font-bold ">The Reading List</p>
             </div>
             <div className="flex items-center justify-end flex-1">
               <nav className="flex items-center space-x-1">

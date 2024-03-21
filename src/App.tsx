@@ -3,6 +3,7 @@ import BookSearch from "./components/BookSearch";
 import { BookList } from "./components/BookList";
 import { useStore } from "./store";
 import { Layout } from "./components/Layout";
+import { TooltipProvider } from "@/components/ui/tooltip";
 
 function App() {
   const { loadBooksFromLocalStorage } = useStore((state) => state);
@@ -14,7 +15,9 @@ function App() {
   return (
     <Layout>
       <BookSearch />
-      <BookList />
+      <TooltipProvider>
+        <BookList />
+      </TooltipProvider>
     </Layout>
   );
 }
